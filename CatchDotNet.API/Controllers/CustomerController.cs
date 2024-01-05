@@ -23,7 +23,10 @@ namespace CatchDotNet.API.Controllers
             return _customerAppService.CreateCustomer(customer);
         }
 
-        
-
+        [HttpGet]
+        public Task<List<CustomerDto>> GetAll()
+        {
+            return _customerAppService.GetAll();
+        }
     }
 }

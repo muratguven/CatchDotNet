@@ -30,5 +30,13 @@ namespace CatchDotNet.API.ApplicationService.Customers
             
             return input;
         }
+
+        public async Task<List<CustomerDto>> GetAll()
+        {
+            var customers = await _customerRepository.GetListAsync();
+
+            var result = Mapper.Map<List<CustomerDto>>(customers);
+            return result;
+        }
     }
 }
