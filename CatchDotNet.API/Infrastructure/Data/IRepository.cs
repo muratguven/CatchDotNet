@@ -5,6 +5,7 @@ namespace CatchDotNet.API.Infrastructure.Data
 {
     public interface IRepository
     {
+       
     }
 
     public interface IRepository<TEntity> : IRepository

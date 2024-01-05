@@ -3,7 +3,7 @@
 namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
 {
     public interface IDbContextProvider<TDbContext> : IDisposable
-         where TDbContext : DbContext
+        where TDbContext : DbContext
     {
         TDbContext GetDbContext();
     }

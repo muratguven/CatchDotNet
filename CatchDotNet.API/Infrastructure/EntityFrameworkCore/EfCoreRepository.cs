@@ -5,25 +5,23 @@ using System.Linq.Expressions;
 
 namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
 {
-    public class EfCoreRepository<TDbContext, TEntity> : Repository<TEntity>, IEfCoreRepository<TEntity>
+    public abstract class EfCoreRepository<TDbContext, TEntity> : Repository<TEntity>, IEfCoreRepository<TEntity>
            where TDbContext : DbContext
            where TEntity : class, IEntity
     {
         protected IDbContextProvider<TDbContext> DbContextProvider;
-
-        public IUnitOfWork<TDbContext> UnitOfWork { get; set; }
-        public EfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider, IUnitOfWork<TDbContext> unitOfWork)
+         
+       
+        public EfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider)
         {
+           
+           
             DbContextProvider = dbContextProvider;
-            UnitOfWork = unitOfWork;
         }
 
-        public DbContext DbContext => DbContextProvider.GetDbContext();
+        protected DbContext DbContext => DbContextProvider.GetDbContext();
 
-        public DbSet<TEntity> DbSet => DbContextProvider.GetDbContext().Set<TEntity>();
-
-
-
+        protected DbSet<TEntity> DbSet => DbContext.Set<TEntity>();
 
 
 
@@ -95,15 +93,15 @@ namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
     }
 
 
-    public class EfCoreRepository<TDbContext, TEntity, TKey> : EfCoreRepository<TDbContext, TEntity>,
+    public abstract class EfCoreRepository<TDbContext, TEntity, TKey> : EfCoreRepository<TDbContext, TEntity>,
         IEfCoreRepository<TEntity, TKey>
          where TDbContext : DbContext
         where TEntity : class, IEntity<TKey>
     {
-        public EfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider, IUnitOfWork<TDbContext> unitOfWork) : base(dbContextProvider, unitOfWork)
+        public EfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider) : base(dbContextProvider)
         {
             DbContextProvider = dbContextProvider;
-            UnitOfWork = unitOfWork;
+            
         }
 
         public TEntity Get(TKey id)

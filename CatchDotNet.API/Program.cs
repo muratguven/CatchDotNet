@@ -1,3 +1,4 @@
+using CatchDotNet.API.ApplicationService.Customers;
 using CatchDotNet.API.EntityFrameworkCore;
 using CatchDotNet.API.Infrastructure.Data;
 using CatchDotNet.API.Infrastructure.DependencyInjection.Microsoft;
@@ -11,12 +12,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAppEfCore<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
     
 });
+builder.Services.AddEfCoreLayer();
 
+// app dependencies
+builder.Services.AddTransient(typeof(ICustomerAppService), typeof(CustomerAppService));
 
 var app = builder.Build();
 

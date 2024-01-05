@@ -6,7 +6,7 @@ namespace CatchDotNet.API.Infrastructure.Data
     public abstract class Repository<TEntity> : IRepository<TEntity>
   where TEntity : class, IEntity
     {
-
+        
 
         //public abstract Task DeleteAsync(TEntity input);
         public abstract TEntity Find(Expression<Func<TEntity, bool>> predicate);

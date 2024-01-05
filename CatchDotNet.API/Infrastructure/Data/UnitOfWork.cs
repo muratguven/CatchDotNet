@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatchDotNet.API.Infrastructure.Data
 {
-    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext>
-        where TDbContext :DbContext
+    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext>  
+        where TDbContext : DbContext
     {
-        private IDbContextProvider<TDbContext> DbContextProvider { get; }
-
-        protected UnitOfWork(IDbContextProvider<TDbContext> dbContextProvider)
+        private IDbContextProvider<TDbContext> DbContextProvider { get; set; }
+       
+        public UnitOfWork(IDbContextProvider<TDbContext> dbContextProvider)
         {
+            
             DbContextProvider = dbContextProvider;
         }
 
@@ -26,10 +27,11 @@ namespace CatchDotNet.API.Infrastructure.Data
 
         public void Dispose()
         {
-            DbContextProvider.Dispose();
+            DbContextProvider.GetDbContext().Dispose();
         }
 
       
+
         public void Rollback()
         {
             DbContextProvider.GetDbContext().Database.RollbackTransaction();

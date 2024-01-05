@@ -2,19 +2,22 @@
 
 namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
 {
-    public class DbContextProvider<TDbContext>(
-        Func<TDbContext> dbContextFactory,
-        IServiceProvider serviceProvider) :
+    public class DbContextProvider<TDbContext> :
         IDbContextProvider<TDbContext>
         where TDbContext : DbContext
     {
 
-        public IServiceProvider ServiceProvider { get; } = serviceProvider;
+        
+        private IDbContextFactory<TDbContext> _factory {  get; set; }
+        private TDbContext DbContext { get; set; }
+        public DbContextProvider(IDbContextFactory<TDbContext> factory)
+        {
+            _factory = factory;
+        }
 
 
         // Current Db context
-        private Func<TDbContext> _instanceFunc { get; set; } = dbContextFactory;
-        private TDbContext DbContext { get; set; }
+
         public void Dispose()
         {
             GetDbContext().Dispose();
@@ -24,9 +27,9 @@ namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
         {
             if (DbContext == null)
             {
-                DbContext = _instanceFunc.Invoke();
+                DbContext = _factory.CreateDbContext();
             }
-
+            Console.WriteLine(DbContext.ContextId);
             return DbContext;
         }
     }

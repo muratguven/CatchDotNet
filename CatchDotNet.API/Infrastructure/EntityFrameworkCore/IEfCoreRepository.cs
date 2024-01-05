@@ -9,9 +9,7 @@ namespace CatchDotNet.API.Infrastructure.EntityFrameworkCore
       where TEntity : class, IEntity
     {
   
-        DbContext DbContext { get; }
-        DbSet<TEntity> DbSet { get; }
-
+        
         /// <summary>
         /// Get all list with includes
         /// </summary>
