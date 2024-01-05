@@ -1,4 +1,5 @@
-﻿using CatchDotNet.API.ApplicationService.Customers.Dtos;
+﻿using AutoMapper;
+using CatchDotNet.API.ApplicationService.Customers.Dtos;
 using CatchDotNet.API.Domains;
 using CatchDotNet.API.EntityFrameworkCore;
 using CatchDotNet.API.Infrastructure.ApplicationService;
@@ -10,7 +11,7 @@ namespace CatchDotNet.API.ApplicationService.Customers
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUnitOfWork<ApplicationDbContext> _unitOfWork;
-        public CustomerAppService(ICustomerRepository customerRepository, IUnitOfWork<ApplicationDbContext> unitOfWork)
+        public CustomerAppService(ICustomerRepository customerRepository, IUnitOfWork<ApplicationDbContext> unitOfWork, IMapper mapper):base(mapper)
         {
             _customerRepository = customerRepository;
             _unitOfWork = unitOfWork;

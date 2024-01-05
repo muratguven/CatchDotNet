@@ -1,6 +1,5 @@
 using CatchDotNet.API.ApplicationService.Customers;
 using CatchDotNet.API.EntityFrameworkCore;
-using CatchDotNet.API.Infrastructure.Data;
 using CatchDotNet.API.Infrastructure.DependencyInjection.Microsoft;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +18,7 @@ builder.Services.AddAppEfCore<ApplicationDbContext>(options =>
     
 });
 builder.Services.AddEfCoreLayer();
-
+builder.Services.AddAutoMapper(typeof(Program));
 // app dependencies
 builder.Services.AddTransient(typeof(ICustomerAppService), typeof(CustomerAppService));
 
