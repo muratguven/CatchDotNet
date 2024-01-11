@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Infrastructure\Events\" />
     <Folder Include="Infrastructure\Redis\" />
   </ItemGroup>
 
