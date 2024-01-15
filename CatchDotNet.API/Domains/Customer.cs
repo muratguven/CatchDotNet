@@ -1,4 +1,4 @@
-﻿using CatchDotNet.API.Infrastructure.Domain;
+﻿using CatchDotNet.Core.Domain;
 
 namespace CatchDotNet.API.Domains
 {

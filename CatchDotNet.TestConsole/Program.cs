@@ -1,7 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using CatchDotNet.TestConsole.cache;
 using CatchDotNet.TestConsole.delegates;
 using CatchDotNet.TestConsole.events;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
@@ -13,14 +16,21 @@ class Program
     {
 
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build(); 
 
         // Dependency injection
 
         builder.Services.AddTransient(typeof(ILocalEventBus<>), typeof(LocalEventBus<>));
         builder.Services.AddTransient(typeof(ILocalEventHandler<TestEvent>), typeof(TestLocalEventHandler));
         builder.Services.AddTransient<ILocalEventHandler<TestSecondEvent>, TestSecondEventHandler>();
-
+        builder.Services.AddStackExchangeRedisCache(option =>
+        {
+            var connection = builder.Configuration.GetRequiredSection("Redis:EndPoint").Value;
+            option.Configuration = connection;
+        });
 
         using IHost host = builder.Build();
 
@@ -52,6 +62,32 @@ class Program
                 await localEventBus.PublishAsync(new TestEvent { MessageTest="Test Event" });
                 await secondEventBus.PublishAsync(new TestSecondEvent { Message = "Test Second Event" });
                 await secondEventBus.PublishAsync(new TestSecondEvent { Message = "Test Second Event - 2" });
+
+
+                // Redis
+
+                //var settings = configuration.GetRequiredSection("Redis:EndPoint");
+
+
+                //Console.WriteLine(settings.Value);
+                //var cacheManager = new CacheManager();
+                //await cacheManager.SetValue("user-1", "MuratGuven");
+
+                //// String sets
+                //var redisConnection = new RedisConnection();
+                //var redis = await redisConnection.Configuration();
+                //var result = redis.GetDatabase().StringGet("user-1");
+
+                var redis = services.GetRequiredService<IDistributedCache>();
+                
+                redis.SetString("key1", "value1");
+
+                var result = redis.GetString("key1");
+
+                
+
+                Console.WriteLine(result);
+                
             }
             catch (Exception e)
             {

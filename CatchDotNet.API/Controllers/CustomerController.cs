@@ -1,6 +1,5 @@
-﻿using CatchDotNet.API.ApplicationService.Customers;
-using CatchDotNet.API.ApplicationService.Customers.Dtos;
-using Microsoft.AspNetCore.Http;
+﻿using CatchDotNet.API.ApplicationServices.Customers;
+using CatchDotNet.API.ApplicationServices.Customers.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatchDotNet.API.Controllers

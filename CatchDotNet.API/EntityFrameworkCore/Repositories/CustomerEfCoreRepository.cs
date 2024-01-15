@@ -1,6 +1,5 @@
 ﻿using CatchDotNet.API.Domains;
-using CatchDotNet.API.Infrastructure.Data;
-using CatchDotNet.API.Infrastructure.EntityFrameworkCore;
+using CatchDotNet.Core.EntityFrameworkCore;
 
 namespace CatchDotNet.API.EntityFrameworkCore.Repositories
 {

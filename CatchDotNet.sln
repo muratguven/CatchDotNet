@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatchDotNet.API", "CatchDotNet.API\CatchDotNet.API.csproj", "{AFEBE774-3467-47B0-865F-A0F12A2E7320}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatchDotNet.TestConsole", "CatchDotNet.TestConsole\CatchDotNet.TestConsole.csproj", "{B0176F94-153B-4702-B28A-C1986509BB33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatchDotNet.TestConsole", "CatchDotNet.TestConsole\CatchDotNet.TestConsole.csproj", "{B0176F94-153B-4702-B28A-C1986509BB33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatchDotNet.Core", "CatchDotNet.Core\CatchDotNet.Core.csproj", "{2D3A0E8A-43EB-467D-ADE2-0F5E0BAED0B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B0176F94-153B-4702-B28A-C1986509BB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0176F94-153B-4702-B28A-C1986509BB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0176F94-153B-4702-B28A-C1986509BB33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3A0E8A-43EB-467D-ADE2-0F5E0BAED0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3A0E8A-43EB-467D-ADE2-0F5E0BAED0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3A0E8A-43EB-467D-ADE2-0F5E0BAED0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3A0E8A-43EB-467D-ADE2-0F5E0BAED0B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

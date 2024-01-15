@@ -1,6 +1,5 @@
 ﻿using CatchDotNet.API.Domains;
 using CatchDotNet.API.EntityFrameworkCore.Repositories;
-using System.Runtime.CompilerServices;
 
 namespace CatchDotNet.API.EntityFrameworkCore
 {

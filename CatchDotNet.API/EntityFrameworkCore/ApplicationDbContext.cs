@@ -1,5 +1,5 @@
 ﻿using CatchDotNet.API.Domains;
-using CatchDotNet.API.Infrastructure.EntityFrameworkCore;
+using CatchDotNet.Core.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatchDotNet.API.EntityFrameworkCore

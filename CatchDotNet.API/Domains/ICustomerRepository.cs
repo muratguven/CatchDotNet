@@ -1,5 +1,4 @@
-﻿using CatchDotNet.API.Infrastructure.Data;
-using CatchDotNet.API.Infrastructure.EntityFrameworkCore;
+﻿using CatchDotNet.Core.Data;
 
 namespace CatchDotNet.API.Domains
 {
