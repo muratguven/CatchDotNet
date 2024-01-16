@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CatchDotNet.Core\CatchDotNet.Core.csproj" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\CatchDotNet.Core\CatchDotNet.Core.csproj" />
   </ItemGroup>
 
 </Project>

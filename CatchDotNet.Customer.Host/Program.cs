@@ -1,25 +1,27 @@
-using CatchDotNet.API.ApplicationServices.Customers;
-using CatchDotNet.API.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+using CatchDotNet.Customer.Host.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 using CatchDotNet.Core.DependencyInjection.Microsoft;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAppEfCoreModule<ApplicationDbContext>(options =>
+// Database
+builder.Services.AddAppEfCoreModule<CustomerDbContext>(option =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-       
+    option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
-builder.Services.AddEfCoreLayer();
-builder.Services.AddAutoMapper(typeof(Program));
-// app dependencies
-builder.Services.AddTransient(typeof(ICustomerAppService), typeof(CustomerAppService));
+// app repositories
+builder.Services.AddEfCore();
+
 
 var app = builder.Build();
 

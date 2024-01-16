@@ -1,12 +1,13 @@
 ﻿using CatchDotNet.API.Domains;
 using CatchDotNet.Core.EntityFrameworkCore;
+using CatchDotNet.Core.EntityFrameworkCore.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatchDotNet.API.EntityFrameworkCore
 {
     public class ApplicationDbContext : DbContextBase<ApplicationDbContext>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, SoftDeleteInterceptor softDeleteInterceptor):base(options,softDeleteInterceptor)
         {
         }
 

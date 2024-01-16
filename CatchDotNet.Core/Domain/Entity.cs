@@ -1,4 +1,6 @@
-﻿namespace CatchDotNet.Core.Domain
+﻿using Azure.Core;
+
+namespace CatchDotNet.Core.Domain
 {
     public abstract class Entity : IEntity, IEquatable<Entity>
     {
