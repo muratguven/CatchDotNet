@@ -1,9 +1,8 @@
 ﻿using CatchDotNet.Core.EntityFrameworkCore;
 using CatchDotNet.Core.EntityFrameworkCore.Interceptors;
-using CatchDotNet.Customer.Host.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace CatchDotNet.Customer.Host.EntityFrameworkCore
+namespace CatchDotNet.CustomerService.Api
 {
     public class CustomerDbContext : DbContextBase<CustomerDbContext>
     {
@@ -12,12 +11,12 @@ namespace CatchDotNet.Customer.Host.EntityFrameworkCore
 
         }
 
-        public DbSet<Customers> Customer { get; set; }
+        public DbSet<Customer> Customer { get; set; }
         public DbSet<CustomerDetail> CustomerDetail { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customers>(b =>
+            modelBuilder.Entity<Customer>(b =>
             {
                 b.HasKey(p => p.Id);
                 b.Property(p => p.NameSurname).IsRequired();

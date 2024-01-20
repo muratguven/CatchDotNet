@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 
-namespace CatchDotNet.Core.DependencyInjection.Microsoft
+namespace CatchDotNet.Core
 {
     public static class EfCoreServiceCollectionExtension
     {

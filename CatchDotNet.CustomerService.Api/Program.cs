@@ -1,14 +1,10 @@
-using CatchDotNet.Customer.Host.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-using CatchDotNet.Core.DependencyInjection.Microsoft;
+using CatchDotNet.CustomerService.Api;
+using CatchDotNet.Core;
 using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -17,7 +13,7 @@ builder.Services.AddSwaggerGen();
 // Database
 builder.Services.AddAppEfCoreModule<CustomerDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+    option.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 // app repositories
 builder.Services.AddEfCore();

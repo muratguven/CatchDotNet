@@ -1,4 +1,4 @@
-﻿namespace CatchDotNet.Customer.Host.EntityFrameworkCore
+﻿namespace CatchDotNet.CustomerService.Api
 {
     public static class CustomerEfCoreServiceCollectionExtension
     {

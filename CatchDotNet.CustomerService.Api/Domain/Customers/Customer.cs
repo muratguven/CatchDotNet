@@ -1,13 +1,13 @@
 ﻿using CatchDotNet.Core.Domain;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CatchDotNet.Customer.Host.Domain
+namespace CatchDotNet.CustomerService.Api
 {
-    public class Customers : AuditedAggregateRoot
+    public class Customer : AuditedAggregateRoot
     {
-        protected Customers() { }
+        protected Customer() { }
         
-        protected Customers(Guid id, string nameSurname, string email, string phoneNumber, bool isActive) 
+        public Customer(Guid id, string nameSurname, string email, string phoneNumber, bool isActive) 
         {
             Id = id;
             NameSurname = nameSurname;

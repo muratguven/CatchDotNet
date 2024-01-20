@@ -1,7 +1,7 @@
 using CatchDotNet.API.ApplicationServices.Customers;
 using CatchDotNet.API.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CatchDotNet.Core.DependencyInjection.Microsoft;
+using CatchDotNet.Core;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

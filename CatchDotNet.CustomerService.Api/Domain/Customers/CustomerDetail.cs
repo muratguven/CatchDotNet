@@ -1,7 +1,7 @@
 ﻿using CatchDotNet.Core.Domain;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CatchDotNet.Customer.Host.Domain
+namespace CatchDotNet.CustomerService.Api
 {
     public class CustomerDetail : Entity, ISoftDeleteEntity
     {
@@ -19,7 +19,7 @@ namespace CatchDotNet.Customer.Host.Domain
         public string DetailKey {  get; private set; }
         public string DetailValue { get; private set;}
 
-        public Customers Customer { get;  set; }
+        public Customer Customer { get;  set; }
         public bool IsDeleted { get; set; }
 
         public void SetCustomer(Guid customerId)=>CustomerId = customerId;
