@@ -9,7 +9,7 @@ namespace CatchDotNet.Core.EntityFrameworkCore.Interceptors
         {
             var entities = eventData.Context.Model.GetEntityTypes();
 
-            if (entities.Any(x => x.GetProperty("IsDeleted") != null))
+            if (entities.Any(x => x.GetProperty("IsDeleted") != null) && command.CommandText.Contains("SELECT"))
             {
                 command.CommandText = command.CommandText.Contains("WHERE") ? command.CommandText + " AND IsDelete=0" : command.CommandText + " WHERE IsDeleted=0";
             }
@@ -18,14 +18,14 @@ namespace CatchDotNet.Core.EntityFrameworkCore.Interceptors
 
         public override ValueTask<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default)
         {
-           
+
             var entities = eventData.Context.Model.GetEntityTypes();
 
-            if (entities.Any(x => x.GetProperty("IsDeleted") != null))
+            if (entities.Any(x => x.GetProperty("IsDeleted") != null && command.CommandText.Contains("SELECT")))
             {
                 command.CommandText = command.CommandText.Contains("WHERE") ? command.CommandText + " AND IsDelete=0" : command.CommandText + " WHERE IsDeleted=0";
             }
-           
+
             return base.ReaderExecutingAsync(command, eventData, result, cancellationToken);
         }
 

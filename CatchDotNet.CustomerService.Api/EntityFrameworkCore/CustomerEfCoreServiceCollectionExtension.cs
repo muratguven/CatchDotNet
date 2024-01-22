@@ -7,6 +7,8 @@
 
             // Add Dependencies Here!
 
+            services.AddScoped(typeof(ICustomerRepository), typeof(CustomerEfCoreRepository));
+
             return services;
         }
     }
