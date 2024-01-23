@@ -1,0 +1,83 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8.11-management-alpine
+    networks:
+      - app-network
+      
+  redis:
+    container_name: redis
+    image: redis:6.0.10-alpine
+    networks:
+      - app-network
+      
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+      
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.13.3
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+    
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - app-network
+ 
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - ../grafana/storage:/var/lib/grafana
+    networks:
+      - app-network
+      
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../prometheus/storage:/prometheus
+    networks:
+      - app-network
+
+  postgres:
+    container_name: postgres_sql
+    image: postgres
+    restart: always
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - app-network
+
+volumes:
+  esdata:
+  sqldata:
+  postgres-db-volume:
+        driver: local
+       
+networks:
+  app-network:
+    external: true
