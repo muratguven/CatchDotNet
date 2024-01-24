@@ -1,10 +1,15 @@
 using CatchDotNet.CustomerService.Api;
 using CatchDotNet.Core;
 using Microsoft.EntityFrameworkCore;
-using FastEndpoints;
 using Carter;
 using FluentValidation;
 using Serilog;
+using Serilog.Events;
+using System.Reflection;
+using Serilog.Formatting.Json;
+using Serilog.Formatting.Compact;
+using Serilog.Formatting.Elasticsearch;
+using Serilog.Sinks.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +21,42 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+var applicationName = Assembly.GetExecutingAssembly().GetName().Name;
+// Log configurations
+var test = builder.Configuration["ElasticSearch:Url"];
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .MinimumLevel.Override("System", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("ApplicationName", $"{applicationName} - {environment}")
+    .Enrich.WithProperty("Developed By", "Murat Güven")
+    .WriteTo.Console(new JsonFormatter())
+    .WriteTo.Async(writeTo => writeTo.Debug(new RenderedCompactJsonFormatter()))
+    .WriteTo.File("Logs/appLog-.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
+    .WriteTo.Async(writeTo => writeTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticSearch:Url"]))
+    {
+        TypeName = null,
+        AutoRegisterTemplate = true,
+        IndexFormat = $"{applicationName.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+        BatchAction = ElasticOpType.Create,
+        CustomFormatter = new ElasticsearchJsonFormatter(),
+        OverwriteTemplate = true,
+        DetectElasticsearchVersion = true,
+        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+        NumberOfReplicas = 1,
+        NumberOfShards = 2,
+        FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
+        EmitEventFailure = EmitEventFailureHandling.WriteToSelfLog |
+                                                           EmitEventFailureHandling.WriteToFailureSink |
+                                                           EmitEventFailureHandling.RaiseCallback |
+                                                           EmitEventFailureHandling.ThrowException
+    }))
+    .CreateLogger();
+
 //Serilog Config
-builder.Host.UseSerilog((context, configuration) => 
-configuration.ReadFrom.Configuration(context.Configuration));
+builder.Host.UseSerilog();
 
 // Database
 builder.Services.AddAppEfCoreModule<CustomerDbContext>(option =>
