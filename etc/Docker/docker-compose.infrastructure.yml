@@ -54,29 +54,27 @@ services:
     networks:
       - app-network
 
-  postgres:
-    container_name: postgres_sql
-    image: postgres
-    restart: always
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:latest
     volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
-    networks:
+      - postgres_data:/var/opt/postgres
+    networks: 
       - app-network
-
+  
   pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: always
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:latest   
     volumes:
-      - ./servers.json:/pgadmin4/servers.json
-    networks:
-      - app-network
+      - pgadmin_data:/var/lib/pgadmin
+    networks: 
+      - app-network   
 
 volumes:
   esdata:
   sqldata:
-  postgres-db-volume:
-        driver: local
+  postgres_data:
+  pgadmin_data:
        
 networks:
   app-network:
