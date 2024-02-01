@@ -24,6 +24,7 @@ namespace CatchDotNet.CustomerService.Api
                 b.Property(p => p.PhoneNumber).IsRequired();
                 b.Property(p => p.IsActive).IsRequired();
                 b.HasMany(p => p.Details).WithOne(x => x.Customer).HasForeignKey(f => f.CustomerId);
+                b.HasQueryFilter(c => c.IsDeleted == false);
 
             });
 
@@ -33,6 +34,7 @@ namespace CatchDotNet.CustomerService.Api
                 b.Property(p=>p.CustomerId).IsRequired();
                 b.Property(p=>p.DetailKey).IsRequired();
                 b.Property(p=>p.DetailValue).IsRequired();
+                b.HasQueryFilter(c=>c.IsDeleted == false);
             });
 
 

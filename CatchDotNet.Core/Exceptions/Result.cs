@@ -33,7 +33,8 @@ namespace CatchDotNet.Core.Exceptions
         public static Result<T> Failure<T>(Error error) => new(default!, false, error);
         public static Result<T> Create<T>(T? value) =>
      value is not null ? Success(value) : Failure<T>(Error.NullValue);
-
+        //implicit operator convert Error > Result 
+        public static implicit operator Result(Error error) => Create(error);
     }
 
 
@@ -50,7 +51,7 @@ namespace CatchDotNet.Core.Exceptions
         public TValue? Value => IsSuccess ? 
             _value : 
             throw new InvalidOperationException("The value of a failure result can not be accessed");
-
+        //implicit operator convert Error > Result 
         public static implicit operator Result<TValue>(TValue? value) => Create(value);
     }
 }

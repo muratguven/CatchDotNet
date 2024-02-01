@@ -54,7 +54,7 @@ namespace CatchDotNet.CustomerService.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("CatchDotNet.CustomerService.Api.CustomerDetail", b =>
