@@ -1,5 +1,5 @@
-﻿using Carter;
-using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core.Exceptions;
+using CatchDotNet.CustomerService.Api.Features.Customers.Commands;
 using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
 using FastEndpoints;
 using MediatR;
@@ -72,8 +72,42 @@ public class GetCustomerEndPoint : EndpointWithoutRequest<Result<List<CustomerRe
         }
       
            await SendOkAsync(result);
-      
+             
         
-        
+    }
+
+}
+
+
+public class UpdateCustomerEndPoint: Endpoint<UpdateCustomerCommand, Result<Guid>>
+{
+    private readonly ISender _sender;
+
+    public UpdateCustomerEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure()
+    {
+        Put("api/customers/{id}");
+        AllowAnonymous();
+    }
+
+
+    public override async Task HandleAsync(UpdateCustomerCommand req, CancellationToken ct)
+    {
+        var result = await _sender.Send(req, ct);
+
+        if(result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+        if (result.IsFailure) { 
+            await SendAsync(result,500,ct);
+        }
+
+        await SendOkAsync(result);
+
     }
 }

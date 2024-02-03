@@ -6,6 +6,6 @@ namespace CatchDotNet.CustomerService.Api.Exceptions.Customers
     {
         public static readonly Error SameCustomer =  new ("CustomerService.SameCustomer", "Customer is already registered!");
 
-        public static readonly Error InvalidCustomer = new("CustomerService.InvalidCustomer", "Cus");
+        public static readonly Error InvalidCustomer = new("CustomerService.InvalidCustomer", "Customer not found!");
     }
 }

@@ -52,21 +52,21 @@ namespace CatchDotNet.Core.Domain
         }
     }
 
-    public abstract class Entity<T> : IEntity<T>, IEquatable<Entity<T>>
+    public abstract class Entity<TKey> : IEntity<TKey>, IEquatable<Entity<TKey>>
     {
-        public virtual T Id { get; set; }
+        public virtual TKey Id { get; set; }
 
-        public static bool operator ==(Entity<T>? first, Entity<T>? second)
+        public static bool operator ==(Entity<TKey>? first, Entity<TKey>? second)
         {
             return first is not null && second is not null && first.Equals(second);
         }
 
-        public static bool operator !=(Entity<T>? first, Entity<T>? second)
+        public static bool operator !=(Entity<TKey>? first, Entity<TKey>? second)
         {
             return !(first == second);
         }
 
-        public bool Equals(Entity<T>? other)
+        public bool Equals(Entity<TKey>? other)
         {
             if (other is null)
             {
@@ -77,7 +77,7 @@ namespace CatchDotNet.Core.Domain
                 return false;
             }
 
-            return EqualityComparer<T>.Default.Equals((T)Id, other.Id);
+            return EqualityComparer<TKey>.Default.Equals((TKey)Id, other.Id);
         }
 
         public override bool Equals(object? obj)
@@ -91,12 +91,12 @@ namespace CatchDotNet.Core.Domain
             {
                 return false;
             }
-            if (obj is not Entity<T> entity)
+            if (obj is not Entity<TKey> entity)
             {
                 return false;
             }
 
-            return EqualityComparer<T>.Default.Equals(Id, entity.Id);
+            return EqualityComparer<TKey>.Default.Equals(Id, entity.Id);
         }
 
         public override int GetHashCode()

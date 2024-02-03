@@ -1,7 +1,6 @@
 using CatchDotNet.CustomerService.Api;
 using CatchDotNet.Core;
 using Microsoft.EntityFrameworkCore;
-using Carter;
 using FluentValidation;
 using Serilog;
 using Serilog.Events;

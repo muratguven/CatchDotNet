@@ -4,8 +4,8 @@
     {
     }
 
-    public interface IEntity<T> : IEntity
+    public interface IEntity<TKey> : IEntity
     {
-        T Id { get; set; }
+        TKey Id { get; set; }
     }
 }

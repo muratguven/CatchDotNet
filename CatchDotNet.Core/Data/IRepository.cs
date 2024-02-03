@@ -9,7 +9,6 @@ namespace CatchDotNet.Core.Data
     }
 
     public interface IRepository<TEntity> : IRepository
-    where TEntity : IEntity
     {
         #region Commands
         /// <summary>
@@ -22,7 +21,7 @@ namespace CatchDotNet.Core.Data
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task InsertAsync(TEntity input);
+        Task InsertAsync(TEntity input, CancellationToken cancellationToken=default);
 
         /// <summary>
         /// Delete a row
@@ -50,13 +49,13 @@ namespace CatchDotNet.Core.Data
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        TEntity Find(Expression<Func<TEntity, bool>> predicate);
+        TEntity? Find(Expression<Func<TEntity, bool>> predicate);
         /// <summary>
         /// Find a data  as async
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken=default);
         /// <summary>
         /// Get data list
         /// </summary>
@@ -72,38 +71,49 @@ namespace CatchDotNet.Core.Data
         /// Get data list as async
         /// </summary>
         /// <returns></returns>
-        Task<List<TEntity>> GetListAsync();
+        Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken);
         /// <summary>
         /// Get data list using expression as async 
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken=default);
         /// <summary>
         /// Get all list with includes
         /// </summary>
         /// <param name="includes"></param>
         /// <returns></returns>
-        //Task<List<TEntity>> GetListAsync(params Expression<Func<TEntity, object>>[] includes);
+        Task<List<TEntity>> GetListAsync(params Expression<Func<TEntity, object>>[] includes );
         /// <summary>
         /// Get all list with includes
         /// </summary>
         /// <param name="predicate"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        //Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
 
-        #endregion
-    }
+        ///
+        TEntity? Get(Guid id);
+        /// <summary>
+        /// Get async 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken=default);
 
-    public interface IRepository<TEntity, TKey> : IRepository<TEntity>
-    where TEntity : IEntity<TKey>
-    {
         /// <summary>
         /// Update data
         /// </summary>        
         /// <param name="input"></param>
         void Update(TEntity input);
+ 
+
+        #endregion
+    }
+
+    public interface IRepository<TEntity, TKey> : IRepository<TEntity>
+    {
+        
 
         /// <summary>
         /// Get a data
@@ -116,7 +126,7 @@ namespace CatchDotNet.Core.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TEntity> GetAsync(TKey id);
+        Task<TEntity?> GetAsync(TKey id, CancellationToken cancellationToken=default);
         /// <summary>
         /// Delete a row
         /// </summary>
