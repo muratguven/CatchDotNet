@@ -1,7 +1,6 @@
-﻿using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core;
 using CatchDotNet.Core.Mediatr.Query;
 using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
-using MediatR;
 
 namespace CatchDotNet.CustomerService.Api.Features.Customers
 {
@@ -37,5 +36,7 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
 
             return Result.Success(result.ToList());
         }
+
+       
     }
 }

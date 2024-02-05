@@ -1,12 +1,11 @@
-﻿using CatchDotNet.Core.Data;
-using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core;
+using CatchDotNet.Core.Data;
 using CatchDotNet.Core.Mediatr.Command;
 using FluentValidation;
-using MediatR;
 
 namespace CatchDotNet.CustomerService.Api.Features.Customers;
 
-        internal sealed class CreateCustomerHandler : ICommandHandler<CreateCustomerCommand>
+internal sealed class CreateCustomerHandler : ICommandHandler<CreateCustomerCommand>
         {
             private readonly ICustomerRepository _customerRepository;
             private readonly IUnitOfWork<CustomerDbContext> _unitOfWork;

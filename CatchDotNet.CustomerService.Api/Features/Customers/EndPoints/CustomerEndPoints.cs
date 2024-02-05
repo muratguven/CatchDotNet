@@ -1,4 +1,5 @@
-﻿using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core;
+using CatchDotNet.Core.Pagination;
 using CatchDotNet.CustomerService.Api.Features.Customers.Commands;
 using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
 using FastEndpoints;
@@ -109,5 +110,36 @@ public class UpdateCustomerEndPoint: Endpoint<UpdateCustomerCommand, Result<Guid
 
         await SendOkAsync(result);
 
+    }
+}
+
+
+public class GetPagedCustomersEndPoint : Endpoint<GetPagedCustomerListQuery, Result<PagedResults<CustomerResponse>>>
+{
+    private ISender _sender;
+
+    public GetPagedCustomersEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure()
+    {
+        Get("/api/customers/get-paged/{CurrentPage}/{PageSize}");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(GetPagedCustomerListQuery req, CancellationToken ct)
+    {
+
+
+        var result = await _sender.Send(req);
+        if(result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+
+
+        await SendOkAsync(result);
     }
 }

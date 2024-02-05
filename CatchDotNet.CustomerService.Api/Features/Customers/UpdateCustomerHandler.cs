@@ -1,9 +1,8 @@
-﻿using CatchDotNet.Core.Data;
-using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core;
+using CatchDotNet.Core.Data;
 using CatchDotNet.Core.Mediatr.Command;
 using CatchDotNet.CustomerService.Api.Exceptions.Customers;
 using CatchDotNet.CustomerService.Api.Features.Customers.Commands;
-using CatchDotNet.CustomerService.Api.Features.Customers.Validators;
 using FluentValidation;
 using MediatR;
 

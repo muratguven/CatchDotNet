@@ -1,4 +1,4 @@
-﻿using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core;
 
 namespace CatchDotNet.CustomerService.Api.Exceptions.Customers
 {

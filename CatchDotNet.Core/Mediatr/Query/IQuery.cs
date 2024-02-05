@@ -1,5 +1,4 @@
-﻿using CatchDotNet.Core.Exceptions;
-using MediatR;
+﻿using MediatR;
 
 namespace CatchDotNet.Core.Mediatr.Query;
 
