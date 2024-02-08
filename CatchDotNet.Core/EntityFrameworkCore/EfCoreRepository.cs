@@ -1,7 +1,6 @@
 ﻿using CatchDotNet.Core.Data;
 using CatchDotNet.Core.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq.Expressions;
 
 namespace CatchDotNet.Core.EntityFrameworkCore
@@ -44,6 +43,24 @@ namespace CatchDotNet.Core.EntityFrameworkCore
         public override void Delete(Guid id)
         {
             var data = DbSet.Where(x => x.Id == id).FirstOrDefault();
+            if(data is not null)
+            {
+                Type entityType = data.GetType();
+                var property = entityType.GetProperty("IsDeleted");
+                if (property is not null)
+                {
+                    property.SetValue(data, true);
+                }
+
+                DbSet.Update(data);
+            }
+          
+        }
+
+        public override void HardDelete(Guid id)
+        {
+            var data = DbSet.Where(x => x.Id == id).FirstOrDefault();
+            if(data is not null)
             DbSet.Remove(data);
         }
         #endregion
@@ -127,6 +144,7 @@ namespace CatchDotNet.Core.EntityFrameworkCore
         IEfCoreRepository<TEntity, TKey>
         where TDbContext : DbContext
         where TEntity : Entity<TKey>
+        where TKey : class
     {
         protected IDbContextProvider<TDbContext> DbContextProvider;
 
@@ -159,7 +177,38 @@ namespace CatchDotNet.Core.EntityFrameworkCore
 
         public override void Delete(TEntity input)
         {
-            DbSet.Remove(input);
+           
+            Type entityType = typeof(TEntity);
+            var property = entityType.GetProperty("IsDeleted");
+            if (property is not null)
+            {
+                property.SetValue(input, true);
+            }
+
+            DbSet.Update(input);
+        }
+
+        public override void Delete(TKey id)
+        {
+            var data = DbSet.FirstOrDefault(x => x.Id == id);
+            if (data is not null)
+            {
+                Type entityType = typeof(TEntity);
+                var property = entityType.GetProperty("IsDeleted");
+                if (property is not null)
+                {
+                    property.SetValue(data, true);
+                    DbSet.Update(data);
+                }
+            }
+            
+        }
+
+        public override void HardDelete(TKey id)
+        {
+            var data = DbSet.FirstOrDefault(x => x.Id == id);
+            if(data is not null)
+            DbSet.Remove(data);
         }
         #endregion
 

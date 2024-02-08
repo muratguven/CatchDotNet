@@ -10,6 +10,7 @@ using Serilog.Formatting.Compact;
 using Serilog.Formatting.Elasticsearch;
 using Serilog.Sinks.Elasticsearch;
 using FastEndpoints;
+using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,7 +77,8 @@ builder.Services.AddMediatR(options =>
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 // fast-endpoints for vertical slices
-builder.Services.AddFastEndpoints().AddSwaggerGen();
+builder.Services.AddFastEndpoints()
+    .AddSwaggerDocument();
 
 
 //Carter 
@@ -102,7 +104,8 @@ app.UseAuthorization();
 
 //app.MapControllers();
 
-app.UseFastEndpoints();
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 app.UseSerilogRequestLogging();
 

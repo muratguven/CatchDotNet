@@ -1,5 +1,4 @@
-﻿using CatchDotNet.Core.Domain;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace CatchDotNet.Core.Data
 {
@@ -30,6 +29,24 @@ namespace CatchDotNet.Core.Data
         /// <returns></returns>
         //Task DeleteAsync(TEntity input);
 
+        
+
+        /// <summary>
+        /// Update data
+        /// </summary>        
+        /// <param name="input"></param>
+        void Update(TEntity input);
+
+        /// <summary>
+        /// Delete a data
+        /// </summary>
+        /// <param name="id"></param>
+        void Delete(Guid id);
+        /// <summary>
+        /// Remove data from database.
+        /// </summary>
+        /// <param name="id"></param>
+        void HardDelete(Guid id);
         #endregion
 
         #region Queries
@@ -101,11 +118,7 @@ namespace CatchDotNet.Core.Data
         /// <returns></returns>
         Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken=default);
 
-        /// <summary>
-        /// Update data
-        /// </summary>        
-        /// <param name="input"></param>
-        void Update(TEntity input);
+       
  
 
         #endregion
@@ -132,6 +145,16 @@ namespace CatchDotNet.Core.Data
         /// </summary>
         /// <param name="input"></param>
         void Delete(TEntity input);
+        /// <summary>
+        /// Delete a data with id.
+        /// </summary>
+        /// <param name="id"></param>
+        void Delete(TKey id);
+        /// <summary>
+        /// Remove data from database.
+        /// </summary>
+        /// <param name="id"></param>
+        void HardDelete(TKey id);
 
     }
 

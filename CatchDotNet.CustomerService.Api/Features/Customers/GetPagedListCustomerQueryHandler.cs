@@ -20,7 +20,7 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
         {
 
 
-            var results = await _customerRepository.GetPagedListAsync(request.CurrentPage, request.PageSize);
+            var results = await _customerRepository.GetPagedListAsync(request.Skip, request.PageSize);
 
             var totalCount = await _customerRepository.GetTotalCountAsync();
 
@@ -41,7 +41,8 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
 
             }).ToList();
 
-            return Result.Success(new PagedResults<CustomerResponse>(responseList, totalCount,request.CurrentPage,request.PageSize));
+            var response = new PagedResults<CustomerResponse>(responseList, totalCount, request.CurrentPage, request.PageSize);
+            return Result.Success(response);
 
         }
     }

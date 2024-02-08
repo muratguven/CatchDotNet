@@ -11,7 +11,7 @@ namespace CatchDotNet.CustomerService.Api
         /// <param name="currentPage"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<List<Customer>> GetPagedListAsync(int currentPage, int pageSize);
+        Task<List<Customer>> GetPagedListAsync(int skip, int pageSize);
         /// <summary>
         /// Get total customer count
         /// </summary>

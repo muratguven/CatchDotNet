@@ -125,7 +125,7 @@ public class GetPagedCustomersEndPoint : Endpoint<GetPagedCustomerListQuery, Res
 
     public override void Configure()
     {
-        Get("/api/customers/get-paged/{CurrentPage}/{PageSize}");
+        Get("/api/customers/get-paged");
         AllowAnonymous();
     }
 
@@ -141,5 +141,32 @@ public class GetPagedCustomersEndPoint : Endpoint<GetPagedCustomerListQuery, Res
 
 
         await SendOkAsync(result);
+    }
+}
+
+public class DeleteCustomerEndPoint: Endpoint<DeleteCustomerCommand>
+{
+    private readonly ISender _sender;
+
+    public DeleteCustomerEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure() 
+    {
+        Delete("api/customers/{id}");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(DeleteCustomerCommand req, CancellationToken ct)
+    {
+       var result = await _sender.Send(req);
+        if( result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+        await SendOkAsync(result);
+        
     }
 }

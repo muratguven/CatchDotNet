@@ -11,9 +11,12 @@ namespace CatchDotNet.CustomerService.Api
 
       
 
-        public Task<List<Customer>> GetPagedListAsync(int currentPage, int pageSize)
+        public Task<List<Customer>> GetPagedListAsync(int skip, int pageSize)
         {
-            return DbSet.Skip(currentPage).Take(pageSize).ToListAsync();
+            return DbSet
+                .Skip(skip)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public Task<int> GetTotalCountAsync()
