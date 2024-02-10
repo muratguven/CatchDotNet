@@ -8,7 +8,7 @@ namespace CatchDotNet.CustomerService.Api
     {
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options, SoftDeleteInterceptor softDeleteInterceptor) : base(options, softDeleteInterceptor)
         {
-
+            
         }
 
         public DbSet<Customer> Customer { get; set; }
@@ -19,6 +19,7 @@ namespace CatchDotNet.CustomerService.Api
             modelBuilder.Entity<Customer>(b =>
             {
                 b.HasKey(p => p.Id);
+                
                 b.Property(p => p.NameSurname).IsRequired();
                 b.Property(p => p.Email).IsRequired();
                 b.Property(p => p.PhoneNumber).IsRequired();

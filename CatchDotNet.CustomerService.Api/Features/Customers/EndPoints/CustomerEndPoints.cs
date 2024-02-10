@@ -170,3 +170,35 @@ public class DeleteCustomerEndPoint: Endpoint<DeleteCustomerCommand>
         
     }
 }
+
+
+public class CreateCustomerDetailEndPoint : Endpoint<CreateCustomerDetailCommand>
+{
+
+    private readonly ISender _sender;
+
+    public CreateCustomerDetailEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure()
+    {
+        Post("api/customers/detail");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(CreateCustomerDetailCommand req, CancellationToken ct)
+    {
+        var result = await _sender.Send(req);
+
+        if(result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+
+        await SendOkAsync(result);
+
+
+    }
+}

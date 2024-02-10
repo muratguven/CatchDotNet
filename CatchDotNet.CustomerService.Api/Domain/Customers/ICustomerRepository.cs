@@ -1,4 +1,5 @@
-﻿using CatchDotNet.Core.Data;
+﻿using CatchDotNet.Core;
+using CatchDotNet.Core.Data;
 
 namespace CatchDotNet.CustomerService.Api
 {
@@ -17,5 +18,12 @@ namespace CatchDotNet.CustomerService.Api
         /// </summary>
         /// <returns></returns>
         Task<int> GetTotalCountAsync();
+        /// <summary>
+        /// Add a customer's detail 
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="detail"></param>
+        /// <returns></returns>
+        Task CreateCustomerDetailAsync(Guid customerId, CustomerDetail detail);
     }
 }

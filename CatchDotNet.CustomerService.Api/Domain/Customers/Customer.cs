@@ -5,9 +5,13 @@ namespace CatchDotNet.CustomerService.Api
 {
     public class Customer : AuditedAggregateRoot
     {
-        protected Customer() { }
+        protected Customer() 
+        { 
         
-        public Customer(Guid id, string nameSurname, string email, string phoneNumber, bool isActive) 
+            Details = new List<CustomerDetail>();
+        }
+
+        public Customer(Guid id, string nameSurname, string email, string phoneNumber, bool isActive)
         {
             Id = id;
             NameSurname = nameSurname;
@@ -25,15 +29,17 @@ namespace CatchDotNet.CustomerService.Api
 
         public ICollection<CustomerDetail> Details { get; private set; }
 
-        public void SetNameSurname([NotNull]string nameSurname) => NameSurname=nameSurname;
-       
-        public void SetEmail([NotNull]string email) => Email=email;
-        
-        public void SetPhoneNumber([NotNull]string phoneNumber) => PhoneNumber=phoneNumber;
-     
+        public void SetNameSurname([NotNull] string nameSurname) => NameSurname = nameSurname;
+
+        public void SetEmail([NotNull] string email) => Email = email;
+
+        public void SetPhoneNumber([NotNull] string phoneNumber) => PhoneNumber = phoneNumber;
+
         public void SetActive(bool isActive) => IsActive = isActive;
-        
+
         public void AddDetail(CustomerDetail detail) => Details.Add(detail);
+
+        public void AddDetail(string key, string value) => Details.Add(new CustomerDetail(Guid.NewGuid(), Id, key, value));
        
 
     }

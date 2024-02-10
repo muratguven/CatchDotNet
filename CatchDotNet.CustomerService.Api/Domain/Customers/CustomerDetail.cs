@@ -5,16 +5,29 @@ namespace CatchDotNet.CustomerService.Api
 {
     public class CustomerDetail : Entity, ISoftDeleteEntity
     {
-        protected CustomerDetail() { }
+        public CustomerDetail() { }
 
-        protected CustomerDetail(Guid id, 
+        internal CustomerDetail(Guid id, 
             Guid customerId, 
             [NotNull]string detailKey, 
             [NotNull]string detailValue)
         {
-            
+         Id = id;
+        CustomerId = customerId;
+         DetailKey = detailKey;
+         DetailValue = detailValue;
         }
 
+
+        internal CustomerDetail(
+           Guid customerId,
+           [NotNull] string detailKey,
+           [NotNull] string detailValue)
+        {
+            CustomerId = customerId;
+            DetailKey = detailKey;
+            DetailValue = detailValue;
+        }
         public Guid CustomerId { get; private set; }
         public string DetailKey {  get; private set; }
         public string DetailValue { get; private set;}
