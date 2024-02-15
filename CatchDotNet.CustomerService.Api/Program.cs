@@ -11,6 +11,8 @@ using Serilog.Formatting.Elasticsearch;
 using Serilog.Sinks.Elasticsearch;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using CatchDotNet.Core.DependencyInjection.Microsoft;
+using CatchDotNet.Core.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,7 +87,7 @@ builder.Services.AddFastEndpoints()
 
 //builder.Services.AddCarter();
 
-
+builder.Services.AddCatchDotNetCore();
 
 var app = builder.Build();
 
@@ -110,5 +112,7 @@ app.UseFastEndpoints()
 app.UseSerilogRequestLogging();
 
 //app.MapCarter();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.Run();

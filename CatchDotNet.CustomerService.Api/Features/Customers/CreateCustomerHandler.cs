@@ -36,6 +36,7 @@ internal sealed class CreateCustomerHandler : ICommandHandler<CreateCustomerComm
                 }
 
                 var customer = new Customer(Guid.NewGuid(),request.NameSurname,request.Email,request.PhoneNumber,request.IsActive);
+                customer.CreatedDate = DateTime.UtcNow;
 
                 using(var uow = _unitOfWork)
                 {
