@@ -33,15 +33,15 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
             var validation = await _validator.ValidateAsync(request, cancellationToken);
             if (!validation.IsValid)
             {
-                _logger.LogError($"Customer detail request not valid! {validation.Errors}");
-                return Result.Failure(CustomerExceptions.InvalidCustomerDetail);
+                _logger.LogError($"Customer detail request not valid! {validation.Errors.FirstOrDefault().ErrorMessage}");
+                return Result.Failure(new Error(validation.Errors.FirstOrDefault().ErrorCode,validation.Errors.FirstOrDefault().ErrorMessage));
             }
 
             using(var uow = _unitOfWork)
             {
 
                 var customerDetail = new CustomerDetail(request.CustomerId, request.CustomerDetail.DetailKey, request.CustomerDetail.DetailValue);
-                await _customerRepository.CreateCustomerDetailAsync(request.CustomerId, customerDetail);
+                await _customerRepository.CreateCustomerDetailAsync(request.CustomerId, customerDetail, cancellationToken);
                 _logger
                     .LogInformation($"CustomerService.CustomerDetail: Added new customer detail customer : " +
                     $"{request.CustomerId} , " +

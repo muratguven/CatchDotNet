@@ -14,9 +14,9 @@ namespace CatchDotNet.CustomerService.Api
             _logger = logger;
         }
 
-        public async Task CreateCustomerDetailAsync(Guid customerId, CustomerDetail detail)
+        public async Task CreateCustomerDetailAsync(Guid customerId, CustomerDetail detail, CancellationToken cancellationToken)
         {
-           var customer = await DbSet.FirstOrDefaultAsync(x=>x.Id == customerId);
+           var customer = await DbSet.FirstOrDefaultAsync(x=>x.Id == customerId,cancellationToken);
             if (customer is null)
             {
                 _logger.LogError($"CustomerService.CustomerEfCoreRepository Id : {customerId} not found!");
@@ -29,17 +29,23 @@ namespace CatchDotNet.CustomerService.Api
 
         }
 
-        public Task<List<Customer>> GetPagedListAsync(int skip, int pageSize)
+        public Task<List<Customer>> GetPagedListAsync(int skip, int pageSize, CancellationToken cancellationToken)
         {
             return DbSet
                 .Skip(skip)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public Task<int> GetTotalCountAsync()
+        public Task<int> GetTotalCountAsync(CancellationToken cancellationToken)
         {
-            return DbSet.CountAsync();
+            return DbSet.CountAsync(cancellationToken);
+        }
+
+        public Task<bool> HasDetail(Guid customerId, string key, CancellationToken cancellationToken)
+        {
+            return DbContext.Set<CustomerDetail>()
+                .AnyAsync(x=>x.CustomerId == customerId && x.DetailKey.Contains(key),cancellationToken);
         }
     }
 }

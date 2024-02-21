@@ -1,6 +1,7 @@
 ﻿using CatchDotNet.Core;
 using CatchDotNet.Core.Pagination;
 using CatchDotNet.CustomerService.Api.Features.Customers.Commands;
+using CatchDotNet.CustomerService.Api.Features.Customers.Dtos;
 using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
 using FastEndpoints;
 using MediatR;
@@ -40,7 +41,7 @@ public class CreateCustomerEndPoint : Endpoint<CreateCustomerCommand, Result>
 }
 
 
-public class GetCustomerEndPoint : EndpointWithoutRequest<Result<List<CustomerResponse>>>
+public class GetCustomerEndPoint : EndpointWithoutRequest<Result<List<CustomerDto>>>
 {
     private ISender _sender;
 
@@ -114,7 +115,7 @@ public class UpdateCustomerEndPoint: Endpoint<UpdateCustomerCommand, Result<Guid
 }
 
 
-public class GetPagedCustomersEndPoint : Endpoint<GetPagedCustomerListQuery, Result<PagedResults<CustomerResponse>>>
+public class GetPagedCustomersEndPoint : Endpoint<GetPagedCustomerListQuery, Result<PagedResults<CustomerDto>>>
 {
     private ISender _sender;
 
