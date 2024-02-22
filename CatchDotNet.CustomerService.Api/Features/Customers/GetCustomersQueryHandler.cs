@@ -4,17 +4,17 @@ using CatchDotNet.CustomerService.Api.Features.Customers.Dtos;
 
 namespace CatchDotNet.CustomerService.Api.Features.Customers
 {
-    public class GetCustomerQueryHandler : IQueryHandler<GetCustomerQuery, List<CustomerDto>>
+    public class GetCustomersQueryHandler : IQueryHandler<GetCustomersQuery, List<CustomerDto>>
     {
 
         public readonly ICustomerRepository _customerRepository;
 
-        public GetCustomerQueryHandler(ICustomerRepository customerRepository)
+        public GetCustomersQueryHandler(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
         }
 
-        public async Task<Result<List<CustomerDto>>> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<CustomerDto>>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
         {
             var customers = await _customerRepository.GetListAsync();
 

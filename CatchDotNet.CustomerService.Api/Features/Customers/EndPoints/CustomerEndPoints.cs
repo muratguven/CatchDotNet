@@ -59,7 +59,7 @@ public class GetCustomerEndPoint : EndpointWithoutRequest<Result<List<CustomerDt
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var req = new GetCustomerQuery();
+        var req = new GetCustomersQuery();
 
         var result = await _sender.Send(req);
 
@@ -200,6 +200,76 @@ public class CreateCustomerDetailEndPoint : Endpoint<CreateCustomerDetailCommand
 
         await SendOkAsync(result);
 
+
+    }
+}
+
+public class GetCustomerWithDetailEndPoint: Endpoint<GetCustomerWithDetailQuery, Result<CustomerWithDetailDto>>
+{
+    private readonly ISender _sender;
+
+    public GetCustomerWithDetailEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure()
+    {
+        Get("api/customers/detail");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(GetCustomerWithDetailQuery req, CancellationToken ct)
+    {
+       
+        var result = await _sender.Send(req, ct);
+
+        if(result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+
+        if (result.IsFailure)
+        {
+            await SendErrorsAsync(StatusCodes.Status500InternalServerError, ct);
+        }
+
+        await SendOkAsync(result);
+    }
+}
+
+
+public class DeleteCustomerDetailEndPoint: Endpoint<DeleteCustomerDetailCommand, Result>
+{
+    private readonly ISender _sender;
+
+    public DeleteCustomerDetailEndPoint(ISender sender)
+    {
+        _sender = sender;
+    }
+
+    public override void Configure()
+    {
+        Delete("api/customers/detail");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(DeleteCustomerDetailCommand req, CancellationToken ct)
+    {
+        
+        var result = await _sender.Send(req, ct);
+
+        if (result is null)
+        {
+            await SendNotFoundAsync(ct);
+        }
+
+        if (result.IsFailure)
+        {
+            await SendErrorsAsync(StatusCodes.Status500InternalServerError,ct);
+        }
+
+        await SendOkAsync(result);
 
     }
 }
