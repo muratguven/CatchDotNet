@@ -9,7 +9,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="FastEndpoints.Swagger" Version="5.21.2" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="5.22.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
@@ -17,11 +17,11 @@
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

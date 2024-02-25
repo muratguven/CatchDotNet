@@ -1,4 +1,5 @@
-﻿using CatchDotNet.Core.Exceptions;
+﻿using CatchDotNet.Core.ElasticSearch;
+using CatchDotNet.Core.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CatchDotNet.Core.DependencyInjection.Microsoft
@@ -9,6 +10,7 @@ namespace CatchDotNet.Core.DependencyInjection.Microsoft
         {
             //Register all services here !
             services.AddTransient<GlobalExceptionMiddleware>();
+          
 
             return services;
         }

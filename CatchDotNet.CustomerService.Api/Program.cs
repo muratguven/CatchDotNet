@@ -82,10 +82,9 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFastEndpoints()
     .AddSwaggerDocument();
 
+// Elastic Search from CatchDotnet Core
+builder.Services.AddElasticSearch(builder.Configuration);
 
-//Carter 
-
-//builder.Services.AddCarter();
 
 builder.Services.AddCatchDotNetCore();
 
