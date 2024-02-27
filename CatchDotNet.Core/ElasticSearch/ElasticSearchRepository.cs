@@ -77,4 +77,17 @@ public class ElasticSearchRepository<T> : IElasticSearchRepository<T>
             throw new Exception($"{JsonSerializer.Serialize(result.ElasticsearchServerError?.Error)} | {result.DebugInformation}");
         }
     }
+
+
+    public async Task<T> Get(string key, string indexName=null)
+    {
+        var index = indexName is null ? nameof(T) : indexName;
+        var result = await Client.GetAsync<T>(key, g => g.Index(index));
+        if (!result.IsValidResponse)
+        {
+            _logger.LogError($"{JsonSerializer.Serialize(result.ElasticsearchServerError?.Error)} | {result.DebugInformation}");
+            throw new Exception($"{JsonSerializer.Serialize(result.ElasticsearchServerError?.Error)} | {result.DebugInformation}");
+        }
+        return result.Source;
+    }
 }

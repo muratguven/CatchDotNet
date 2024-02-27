@@ -1,6 +1,7 @@
 ﻿using CatchDotNet.Core;
 using CatchDotNet.Core.Data;
 using CatchDotNet.Core.Mediatr.Command;
+using CatchDotNet.CustomerService.Api.Domain.Customers;
 using CatchDotNet.CustomerService.Api.Exceptions.Customers;
 using CatchDotNet.CustomerService.Api.Features.Customers.Commands;
 using FluentValidation;
@@ -14,16 +15,19 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
         private readonly ILogger<CreateCustomerDetailHandler> _logger;
         private readonly IUnitOfWork<CustomerDbContext> _unitOfWork;
         private readonly IValidator<CreateCustomerDetailCommand> _validator;
+        private readonly ICustomerDetailKeyRepository _customerDetailKeyRepository;
 
         public CreateCustomerDetailHandler(ICustomerRepository customerRepository,
                                            ILogger<CreateCustomerDetailHandler> logger,
                                            IUnitOfWork<CustomerDbContext> unitOfWork,
-                                           IValidator<CreateCustomerDetailCommand> validator)
+                                           IValidator<CreateCustomerDetailCommand> validator,
+                                           ICustomerDetailKeyRepository customerDetailKeyRepository)
         {
             _customerRepository = customerRepository;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _validator = validator;
+            _customerDetailKeyRepository = customerDetailKeyRepository;
         }
 
 
@@ -50,6 +54,14 @@ namespace CatchDotNet.CustomerService.Api.Features.Customers
 
 
                var result = await uow.CommitAsync();
+
+
+                await _customerDetailKeyRepository.CreateIndex("customer-keys");
+                var document = new CustomerDetailKey
+                {                    
+                    Key = request.CustomerDetail.DetailKey,
+                };
+                await _customerDetailKeyRepository.InsertDocumentAsync(document,"customer-keys",cancellationToken);
 
                 return Result.Success();
             }

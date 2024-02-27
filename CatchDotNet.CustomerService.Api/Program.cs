@@ -13,6 +13,8 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using CatchDotNet.Core.DependencyInjection.Microsoft;
 using CatchDotNet.Core.Exceptions;
+using CatchDotNet.CustomerService.Api.Domain.Customers;
+using CatchDotNet.CustomerService.Api.ElasticSearch.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,8 +68,7 @@ builder.Services.AddAppEfCoreModule<CustomerDbContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
-// app repositories
-builder.Services.AddEfCore();
+
 
 // config mediatr 
 builder.Services.AddMediatR(options =>
@@ -87,6 +88,11 @@ builder.Services.AddElasticSearch(builder.Configuration);
 
 
 builder.Services.AddCatchDotNetCore();
+
+// Application Dependencies
+
+builder.Services.AddEfCore();
+builder.Services.AddTransient<ICustomerDetailKeyRepository, CustomerDetailKeyRepository>();
 
 var app = builder.Build();
 

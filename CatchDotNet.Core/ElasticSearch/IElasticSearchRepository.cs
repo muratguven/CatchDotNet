@@ -17,5 +17,12 @@
         /// <param name="indexName"></param>
         /// <returns></returns>
         Task InsertDocumentAsync(T document, string indexName = null, CancellationToken cancellationToken=default);
+        /// <summary>
+        ///  Get a document from elastic search
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="indexName"></param>
+        /// <returns></returns>
+        Task<T> Get(string key, string indexName = null);
     }
 }
