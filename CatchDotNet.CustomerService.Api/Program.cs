@@ -52,7 +52,11 @@ Log.Logger = new LoggerConfiguration()
         AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
         NumberOfReplicas = 1,
         NumberOfShards = 2,
-        FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
+        FailureCallback = (e,f) =>
+        {
+            Console.WriteLine("Unable to submit event " + e.MessageTemplate);
+           
+        },
         EmitEventFailure = EmitEventFailureHandling.WriteToSelfLog |
                                                            EmitEventFailureHandling.WriteToFailureSink |
                                                            EmitEventFailureHandling.RaiseCallback |
