@@ -61,8 +61,9 @@ public class ElasticSearchRepository<T> : IElasticSearchRepository<T>
             throw new Exception($"'{typeof(T).Name}' document must include 'Id' property that is type of Guid!");
         }
 
+        var value = document.GetType().GetProperty("Id")?.GetValue(document, null);
 
-        if (document.GetType().GetProperty("Id")?.GetValue(document, null) == null)
+        if (value == null || value.ToString() == Guid.Empty.ToString())
         {
             document.GetType().GetProperty("Id")?.SetValue(document, Guid.NewGuid());
         }
@@ -82,12 +83,20 @@ public class ElasticSearchRepository<T> : IElasticSearchRepository<T>
     public async Task<T> Get(string key, string indexName=null)
     {
         var index = indexName is null ? nameof(T) : indexName;
-        var result = await Client.GetAsync<T>(key, g => g.Index(index));
+        var result = await Client.GetAsync<T>(key, g => g.Index(index));        
         if (!result.IsValidResponse)
         {
             _logger.LogError($"{JsonSerializer.Serialize(result.ElasticsearchServerError?.Error)} | {result.DebugInformation}");
             throw new Exception($"{JsonSerializer.Serialize(result.ElasticsearchServerError?.Error)} | {result.DebugInformation}");
         }
         return result.Source;
+    }
+
+    public async Task Delete(T document, string indexName = null, CancellationToken cancellationToken = default)
+    {
+
+        var index = indexName is null ? nameof(T) : indexName;
+        var result = await Client.DeleteAsync<T>(document, cancellationToken);
+        
     }
 }
