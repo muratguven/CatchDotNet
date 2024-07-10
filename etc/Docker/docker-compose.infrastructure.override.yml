@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   rabbitmq:
@@ -25,12 +24,12 @@ services:
     ports: 
       - "5601:5601"
       
-  sql-server-db:
-    ports:
-      - "1434:1433"
-    environment:
-      SA_PASSWORD: "myPassw0rd"
-      ACCEPT_EULA: "Y"
+  # sql-server-db:
+  #   ports:
+  #     - "1434:1433"
+  #   environment:
+  #     SA_PASSWORD: "myPassw0rd"
+  #     ACCEPT_EULA: "Y"
       
   grafana:
     ports:
@@ -40,14 +39,14 @@ services:
     ports:
       - "9090:9090"
 
-  postgres:
+  postgres-personal:
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=myPassw0rd
       - POSTGRES_USER=admin
 
-  pgadmin:
+  pgadmin-personal:
       environment:
         PGADMIN_DEFAULT_EMAIL: 'admin@email.com'
         PGADMIN_DEFAULT_PASSWORD: 'admin'

@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   rabbitmq:
@@ -29,13 +28,13 @@ services:
     networks:
       - app-network
     
-  sql-server-db:
-    container_name: sql-server-db
-    image: mcr.microsoft.com/mssql/server
-    volumes:
-      - sqldata:/var/opt/mssql
-    networks:
-      - app-network
+  # sql-server-db:
+  #   container_name: sql-server-db
+  #   image: mcr.microsoft.com/mssql/server
+  #   volumes:
+  #     - sqldata:/var/opt/mssql
+  #   networks:
+  #     - app-network
  
   grafana:
     container_name: grafana
@@ -54,15 +53,16 @@ services:
     networks:
       - app-network
 
-  postgres-db:
-    container_name: postgres-db
-    image: postgres:latest
+  postgres-personal:
+    container_name: postgres-personal
+    image: postgres
+    restart: unless-stopped
     volumes:
       - postgres_data:/var/opt/postgres
     networks: 
       - app-network
   
-  pgadmin:
+  pgadmin-personal:
     container_name: pgadmin_container
     image: dpage/pgadmin4:latest   
     volumes:
