@@ -24,5 +24,13 @@
         /// <param name="indexName"></param>
         /// <returns></returns>
         Task<T> Get(string key, string indexName = null);
+        /// <summary>
+        /// Delete document using key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="indexName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task Delete(T document, string indexName=null, CancellationToken cancellationToken=default);
     }
 }
