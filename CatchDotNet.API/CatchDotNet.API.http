@@ -1,6 +1,0 @@
-@CatchDotNet.API_HostAddress = http://localhost:5249
-
-GET {{CatchDotNet.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
