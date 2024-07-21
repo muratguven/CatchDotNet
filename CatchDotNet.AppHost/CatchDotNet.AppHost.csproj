@@ -23,6 +23,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\CatchDotNet.Gateway\CatchDotNet.Gateway.csproj" />
     <ProjectReference Include="..\CatchDotNet.WebApi\CatchDotNet.WebApi.csproj" />
   </ItemGroup>
 

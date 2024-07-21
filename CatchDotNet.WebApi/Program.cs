@@ -15,6 +15,7 @@ using CatchDotNet.Core.Exceptions;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Identity;
 using CatchDotNet.WebApi.Features.Identity.Domains;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,7 +88,33 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 // fast-endpoints for vertical slices
 builder.Services.AddFastEndpoints()
-    .AddSwaggerDocument();
+    .AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+})
+.AddSwaggerDocument();
 
 // Elastic Search from CatchDotnet Core
 builder.Services.AddElasticSearch(builder.Configuration);
@@ -97,7 +124,9 @@ builder.Services.AddCatchDotNetCore();
 
 // Authentication and Authorization
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddBearerToken();
+builder.Services.AddAuthentication()
+    .AddCookie(IdentityConstants.ApplicationScheme)
+    .AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<CatchDbContext>()
     .AddApiEndpoints();
@@ -116,11 +145,11 @@ app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();    
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 //app.MapControllers();

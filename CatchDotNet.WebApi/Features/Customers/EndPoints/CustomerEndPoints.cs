@@ -5,6 +5,7 @@ using CatchDotNet.WebApi;
 using CatchDotNet.WebApi.Commands;
 using FastEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace CatchDotNet.CustomerService.Api.Features.Customers;
 
@@ -22,7 +23,7 @@ public class CreateCustomerEndPoint : Endpoint<CreateCustomerCommand, Result>
     public override void Configure()
     {
         Post("/api/customers");
-        AllowAnonymous();
+        AuthSchemes(IdentityConstants.BearerScheme);
     }
 
     public override async Task HandleAsync(CreateCustomerCommand req, CancellationToken ct)
@@ -53,7 +54,7 @@ public class GetCustomerEndPoint : EndpointWithoutRequest<Result<List<CustomerDt
     public override void Configure()
     {
         Get("/api/customers");
-        AllowAnonymous();
+        AuthSchemes(IdentityConstants.BearerScheme);
     }
 
 
