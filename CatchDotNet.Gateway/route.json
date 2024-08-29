@@ -1,0 +1,33 @@
+{
+  "ReverseProxy": {
+    "Routes": {
+      "routeCustomer": {
+        "clusterId": "customers",
+        "Match": {
+          "Path": "/api/customers/{**catch-all}"
+        }
+
+      }
+
+    },
+    "Clusters": {
+      "customers": {
+        "Destinations": {
+          "Default": {
+            "Address": "https://localhost:7221",
+            "Swaggers": [
+              {
+                "PrefixPath": "/api/customers",
+                "MetadataPath": "/swagger/v1/swagger.json",
+                "Paths": [
+                  "/swagger/v1/swagger.json"
+                ]
+              }
+            ]
+          }
+        }
+      }
+     
+    }
+  }
+}
