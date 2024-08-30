@@ -36,4 +36,9 @@
     <ProjectReference Include="..\CatchDotNet.ServiceDefaults\CatchDotNet.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Cases\Dtos\" />
+    <Folder Include="Features\Cases\Queries\" />
+  </ItemGroup>
+
 </Project>
