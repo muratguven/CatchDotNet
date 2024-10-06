@@ -4,8 +4,9 @@ namespace CatchDotNet.WebApi.Features.Cases.Domains;
 
 public class Category : Entity
 {
-    public Category(Guid? parentId, string name, bool ısActived)
+    public Category(Guid id,Guid? parentId, string name, bool ısActived)
     {
+        Id = id;
         ParentId = parentId;
         Name = name;
         IsActived = ısActived;

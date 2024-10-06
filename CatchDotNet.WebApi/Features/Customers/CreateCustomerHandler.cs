@@ -40,7 +40,7 @@ internal sealed class CreateCustomerHandler : ICommandHandler<CreateCustomerComm
 
                 using(var uow = _unitOfWork)
                 {
-                    await _customerRepository.InsertAsync(customer);
+                    await _customerRepository.InsertAsync(customer,cancellationToken);
                     await _unitOfWork.CommitAsync();
                 }
 

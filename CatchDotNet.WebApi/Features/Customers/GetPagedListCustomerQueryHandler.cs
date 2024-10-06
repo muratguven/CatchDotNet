@@ -1,7 +1,7 @@
 ﻿using CatchDotNet.Core;
 using CatchDotNet.Core.Mediatr.Query;
 using CatchDotNet.Core.Pagination;
-using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
+using CatchDotNet.WebApi.Features.Customers.Queries;
 
 namespace CatchDotNet.WebApi
 {

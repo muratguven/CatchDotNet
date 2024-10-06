@@ -1,6 +1,6 @@
 ﻿using CatchDotNet.Core;
 using CatchDotNet.Core.Mediatr.Query;
-using CatchDotNet.CustomerService.Api.Features.Customers.Queries;
+using CatchDotNet.WebApi.Features.Customers.Queries;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 

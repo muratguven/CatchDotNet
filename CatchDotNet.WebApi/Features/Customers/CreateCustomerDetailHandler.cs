@@ -33,8 +33,8 @@ namespace CatchDotNet.WebApi
             var validation = await _validator.ValidateAsync(request, cancellationToken);
             if (!validation.IsValid)
             {
-                _logger.LogError($"Customer detail request not valid! {validation.Errors.FirstOrDefault().ErrorMessage}");
-                return Result.Failure(new Error(validation.Errors.FirstOrDefault().ErrorCode,validation.Errors.FirstOrDefault().ErrorMessage));
+                _logger.LogError($"Customer detail request not valid! {validation.Errors?.FirstOrDefault()?.ErrorMessage}");
+                return Result.Failure(new Error(validation.Errors?.FirstOrDefault()?.ErrorCode,validation.Errors?.FirstOrDefault()?.ErrorMessage));
             }
 
             using(var uow = _unitOfWork)

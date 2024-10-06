@@ -5,17 +5,18 @@ using Serilog.Formatting.Compact;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Formatting.Elasticsearch;
-using FastEndpoints;
 using FluentValidation;
 using CatchDotNet.WebApi;
 using CatchDotNet.Core.DependencyInjection.Microsoft;
 using CatchDotNet.Core;
+using CatchDotNet.Core.EndPoints;
 using Microsoft.EntityFrameworkCore;
 using CatchDotNet.Core.Exceptions;
-using FastEndpoints.Swagger;
+using CatchDotNet.WebApi.Features.Cases.Domains;
 using Microsoft.AspNetCore.Identity;
 using CatchDotNet.WebApi.Features.Identity.Domains;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,7 @@ builder.AddServiceDefaults();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen();
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var applicationName = Assembly.GetExecutingAssembly().GetName().Name;
@@ -39,15 +40,15 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("System", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .Enrich.WithProperty("ApplicationName", $"{applicationName} - {environment}")
-    .Enrich.WithProperty("Developed By", "Murat Güven")
+    .Enrich.WithProperty("Developed By", "Murat Gï¿½ven")
     .WriteTo.Console(new JsonFormatter())
     .WriteTo.Async(writeTo => writeTo.Debug(new RenderedCompactJsonFormatter()))
     .WriteTo.File("Logs/appLog-.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
-    .WriteTo.Async(writeTo => writeTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticSearch:Url"]))
+    .WriteTo.Async(writeTo => writeTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticSearch:Url"] ?? string.Empty))
     {
         TypeName = null,
         AutoRegisterTemplate = true,
-        IndexFormat = $"{applicationName.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+        IndexFormat = $"{applicationName?.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
         BatchAction = ElasticOpType.Create,
         CustomFormatter = new ElasticsearchJsonFormatter(),
         OverwriteTemplate = true,
@@ -86,10 +87,25 @@ builder.Services.AddMediatR(options =>
 //Fluent Validation Config
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
-// fast-endpoints for vertical slices
-builder.Services.AddFastEndpoints()
-    .AddSwaggerGen(options =>
+//Endpoint configurations
+builder.Services.AddEndPoints(Assembly.GetExecutingAssembly());
+
+
+// swagger configurations
+builder.Services.AddSwaggerGen(options =>
 {
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "CatchDotNet API",
+        Version = "v1",
+        Description = "An example of Minimal API with Swagger documentation",
+        Contact = new OpenApiContact
+        {
+            Name = "Your Name",
+            Email = "your.email@example.com"
+        }
+    });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -106,15 +122,14 @@ builder.Services.AddFastEndpoints()
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
-            new string[]{}
+            new string[] { }
         }
     });
-})
-.AddSwaggerDocument();
+});
 
 // Elastic Search from CatchDotnet Core
 builder.Services.AddElasticSearch(builder.Configuration);
@@ -134,37 +149,39 @@ builder.Services.AddIdentityCore<User>()
 // Application Dependencies
 
 builder.Services.AddEfCore();
+// Dependecies Here!!!!!
 builder.Services.AddTransient<ICustomerDetailKeyRepository, CustomerDetailKeyRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryEfCoreRepository>();
 
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+// app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minimal API Example v1");
+        c.RoutePrefix = "swagger"; 
+    });
 }
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapControllers();
-
-
-
-app.UseFastEndpoints()
-    .UseSwaggerGen();
+app.MapControllers();
+//My minimal api mapping here :)
+app.MapEndPoints();
 
 app.UseSerilogRequestLogging();
 
-//app.MapCarter();
-
 app.MapIdentityApi<User>();
-
+app.UseHttpMetrics();
 app.UseMiddleware<GlobalExceptionMiddleware>();
+
 
 app.Run();
