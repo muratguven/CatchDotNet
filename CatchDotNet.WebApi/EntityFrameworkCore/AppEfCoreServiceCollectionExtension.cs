@@ -1,4 +1,6 @@
-﻿namespace CatchDotNet.WebApi;
+﻿using CatchDotNet.WebApi.Features.Cases.Domains;
+
+namespace CatchDotNet.WebApi.EntityFrameworkCore;
 
 public static class AppEfCoreServiceCollectionExtension
 {
@@ -8,6 +10,7 @@ public static class AppEfCoreServiceCollectionExtension
         // Add Dependencies Here!
 
         services.AddScoped(typeof(ICustomerRepository), typeof(CustomerEfCoreRepository));
+        services.AddScoped<ICategoryRepository, CategoryEfCoreRepository>();
 
         return services;
     }

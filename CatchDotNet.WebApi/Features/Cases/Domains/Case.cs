@@ -4,6 +4,10 @@ namespace CatchDotNet.WebApi.Features.Cases.Domains
 {
     public class Case : AuditedAggregateRoot
     {
+        public Case()
+        {
+            
+        }
         public Case(Guid customerId, Guid categoryId, Guid statusId, string title, string description)
         {
             CustomerId = customerId;

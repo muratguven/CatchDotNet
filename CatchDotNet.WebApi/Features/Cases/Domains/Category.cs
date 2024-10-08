@@ -4,6 +4,10 @@ namespace CatchDotNet.WebApi.Features.Cases.Domains;
 
 public class Category : Entity
 {
+    public Category()
+    {
+        
+    }
     public Category(Guid id,Guid? parentId, string name, bool ısActived)
     {
         Id = id;

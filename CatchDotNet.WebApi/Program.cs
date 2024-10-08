@@ -12,6 +12,7 @@ using CatchDotNet.Core;
 using CatchDotNet.Core.EndPoints;
 using Microsoft.EntityFrameworkCore;
 using CatchDotNet.Core.Exceptions;
+using CatchDotNet.WebApi.EntityFrameworkCore;
 using CatchDotNet.WebApi.Features.Cases.Domains;
 using Microsoft.AspNetCore.Identity;
 using CatchDotNet.WebApi.Features.Identity.Domains;
