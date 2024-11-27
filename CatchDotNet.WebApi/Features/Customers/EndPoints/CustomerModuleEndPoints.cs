@@ -84,9 +84,11 @@ public class GetPagedCustomersEndPoint : IEndPoint
     {
         app.MapGet("api/customers/get-paged",
             async ([FromServices] ISender _sender,
-                [FromBody]GetPagedCustomerListQuery query,
+                [FromQuery] int currentPage,
+                [FromQuery] int pageSize,
                 CancellationToken cancellationToken) =>
-        {
+            {
+                var query = new GetPagedCustomerListQuery(currentPage, pageSize);
             var results = await _sender.Send(query, cancellationToken);
             if (results.IsFailure)
             {

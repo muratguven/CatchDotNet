@@ -4,6 +4,10 @@ namespace CatchDotNet.WebApi.Features.Cases.Domains
 {
     public class Status : Entity
     {
+        public Status()
+        {
+            
+        }
         public Status(string name, bool isActive)
         {
             Name = name;

@@ -1,4 +1,5 @@
-﻿using CatchDotNet.WebApi.Features.Identity.Domains;
+﻿using CatchDotNet.WebApi.Features.Cases.Domains;
+using CatchDotNet.WebApi.Features.Identity.Domains;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,16 @@ namespace CatchDotNet.WebApi
         public DbSet<CustomerDetail> CustomerDetail { get; set; }
 
         public DbSet<User> User { get; set; }
+        
+        public DbSet<Case> Case { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Status> Status { get; set; }
 
         
 
         const string identityScheme = "Identity";
         const string customerScheme = "Customer";
+        private const string caseScheme = "Case";
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -81,7 +87,37 @@ namespace CatchDotNet.WebApi
               
             });
 
-           
+            modelBuilder.Entity<Category>(b =>
+            {
+                b.ToTable(name: "Categories", caseScheme);
+                b.HasKey(p=>p.Id);
+                b.Property(p => p.Name).IsRequired();
+                b.Property(p => p.ParentId).IsRequired(false);
+                
+            });
+
+            modelBuilder.Entity<Case>(b =>
+            {
+                b.ToTable(name: "Cases", caseScheme);
+                b.HasKey(p => p.Id);
+                b.Property(p => p.Title).IsRequired();
+                b.Property(p => p.Description).IsRequired();
+                b.Property(p => p.StatusId).IsRequired();
+                b.HasOne(s => s.Status).WithMany().HasForeignKey(p => p.StatusId);
+                b.Property(p => p.CustomerId).IsRequired();
+                b.Property(p=>p.CategoryId).IsRequired();
+                b.HasOne(p=>p.Category).WithMany().HasForeignKey(p => p.CategoryId);
+            });
+
+            modelBuilder.Entity<Status>(b =>
+            {
+                b.ToTable(name: "Statuses", caseScheme);
+                b.HasKey(p=>p.Id);
+                b.Property(p => p.Name).IsRequired();
+                
+            });
+
+
         }
     }
 }
