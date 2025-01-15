@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿
+
+using MapsterMapper;
 
 namespace CatchDotNet.Core.ApplicationService
 {
