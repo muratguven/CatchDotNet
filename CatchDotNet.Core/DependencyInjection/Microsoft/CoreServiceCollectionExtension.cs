@@ -11,7 +11,7 @@ namespace CatchDotNet.Core.DependencyInjection.Microsoft
             //Register all services here !
             services.AddTransient<GlobalExceptionMiddleware>();
           
-
+            
             return services;
         }
     }

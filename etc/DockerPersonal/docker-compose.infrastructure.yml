@@ -28,47 +28,47 @@ services:
     networks:
       - app-network
     
-  # sql-server-db:
-  #   container_name: sql-server-db
-  #   image: mcr.microsoft.com/mssql/server
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - app-network
+ 
+  # grafana:
+  #   container_name: grafana
+  #   image: grafana/grafana
   #   volumes:
-  #     - sqldata:/var/opt/mssql
+  #     - ../grafana/storage:/var/lib/grafana
   #   networks:
   #     - app-network
- 
-  grafana:
-    container_name: grafana
-    image: grafana/grafana
-    volumes:
-      - ../grafana/storage:/var/lib/grafana
-    networks:
-      - app-network
       
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus
-    volumes:
-      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ../prometheus/storage:/prometheus
-    networks:
-      - app-network
+  # prometheus:
+  #   container_name: prometheus
+  #   image: prom/prometheus
+  #   volumes:
+  #     - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ../prometheus/storage:/prometheus
+  #   networks:
+  #     - app-network
 
-  postgres-personal:
-    container_name: postgres-personal
-    image: postgres
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/opt/postgres
-    networks: 
-      - app-network
+  # postgres-personal:
+  #   container_name: postgres-personal
+  #   image: postgres
+  #   restart: unless-stopped
+  #   volumes:
+  #     - postgres_data:/var/opt/postgres
+  #   networks: 
+  #     - app-network
   
-  pgadmin-personal:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4:latest   
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    networks: 
-      - app-network   
+  # pgadmin-personal:
+  #   container_name: pgadmin_container
+  #   image: dpage/pgadmin4:latest   
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+  #   networks: 
+  #     - app-network   
 
 volumes:
   esdata:

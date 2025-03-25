@@ -24,12 +24,12 @@ services:
     ports: 
       - "5601:5601"
       
-  # sql-server-db:
-  #   ports:
-  #     - "1434:1433"
-  #   environment:
-  #     SA_PASSWORD: "myPassw0rd"
-  #     ACCEPT_EULA: "Y"
+  sql-server-db:
+    ports:
+      - "1434:1433"
+    environment:
+      SA_PASSWORD: "myPassw0rd"
+      ACCEPT_EULA: "Y"
       
   grafana:
     ports:

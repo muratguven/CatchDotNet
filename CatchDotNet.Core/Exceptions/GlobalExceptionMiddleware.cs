@@ -23,23 +23,21 @@ namespace CatchDotNet.Core.Exceptions
             }
             catch (Exception e)
             {
-
                 _logger.LogError(e, e.Message);
-                context.Response.StatusCode =(int) HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                
                 ProblemDetails problem = new()
                 {
                     Status = (int)HttpStatusCode.InternalServerError,
                     Type = "Server Error",
                     Title = "Server Error",
-                    Detail = "An internal server error has occured!"
+                    Detail = "An internal server error has occurred!"
                 };
-                var json = JsonSerializer.Serialize(problem);
-                await context.Response.WriteAsJsonAsync(json);
-
-                context.Response.ContentType = "application/json";
                 
+                context.Response.ContentType = "application/json";
+                var json = JsonSerializer.Serialize(problem);
+                await context.Response.WriteAsync(json);
             }
-
         }
     }
 }
